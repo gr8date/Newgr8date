@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /login/
+Disallow: /signup/
+
+# Point Google directly to your sitemap
+Sitemap: https://www.gr8date.com.au/sitemap.xml

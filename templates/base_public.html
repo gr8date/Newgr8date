@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
+    <title>{% block title %}{{ meta_title|default:"GR8Date | Australia's Premier Free Network" }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ meta_desc|default:"Join Australia's exclusive free network for intentional dating. Connect with professionals in our private circles." }}{% endblock %}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@300;400;600;700&family=Allura&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --obsidian: #05070a;
+            --liquid-gold: #c5a059;
+            --gold-glow: rgba(197, 160, 89, 0.4);
+            --text-main: #f8f9fa;
+            --text-muted: rgba(248, 249, 250, 0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--obsidian); color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+        /* --- STICKY NAV --- */
+        .nav-fixed {
+            position: fixed;
+            top: 0; width: 100%; height: 80px; display: flex; justify-content: space-between; align-items: center; padding: 0 6%;
+            background: rgba(5, 7, 10, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(197, 160, 89, 0.1); z-index: 2000;
+        }
+        
+        .brand-logo-nav { 
+            font-family: 'Allura', cursive; font-size: 44px; text-decoration: none;
+            background: linear-gradient(to bottom, #f9f295 0%, #e0aa3e 50%, #f9f295 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
+        }
+
+        .nav-cta { display: flex; align-items: center; gap: 20px; }
+        .nav-login { color: #fff; text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        .join-link { color: #000; background: var(--liquid-gold); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; padding: 10px 24px; border-radius: 2px; }
+
+        /* --- CENTERED HERO --- */
+        .city-hero {
+            position: relative; width: 100%; min-height: 75vh;
+            margin-top: 80px; background: #000; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .city-slide { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; object-position: center center;
+            filter: brightness(0.35); opacity: 0; transition: opacity 1s ease-in-out; 
+        }
+        .city-slide.active { opacity: 1; }
+        
+        .hero-title { position: relative; z-index: 10; text-align: center; color: #fff; padding: 0 5%; width: 100%; }
+        .hero-tag { text-transform: uppercase; letter-spacing: 10px; font-size: 1rem; color: var(--liquid-gold); margin-bottom: 20px; display: block; }
+        .hero-title h1 { font-family: 'Playfair Display', serif; font-size: clamp(45px, 8vw, 110px); line-height: 0.95; }
+        .hero-title h1 span { font-style: italic; font-weight: 700; color: var(--liquid-gold); }
+
+        /* --- CONTENT CARDS --- */
+        .editorial-section { padding: 100px 10%; max-width: 1400px; margin: -60px auto 0; position: relative; z-index: 20; }
+        .editorial-card { background: #020305; border: 1px solid rgba(197, 160, 89, 0.15); padding: 80px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; }
+        
+        .benefit-point { margin-bottom: 40px; padding-left: 20px; border-left: 2px solid var(--liquid-gold); }
+        .benefit-point i { color: var(--liquid-gold); margin-bottom: 10px; font-size: 1.5rem; display: block; }
+        .benefit-point h3 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; color: var(--liquid-gold); }
+
+        .editorial-lead h2 { font-family: 'Playfair Display', serif; font-size: 48px; line-height: 1.1; color: #fff; }
+        .editorial-text { color: var(--text-muted); font-size: 1.1rem; font-weight: 300; line-height: 1.8; }
+        .editorial-text p { margin-bottom: 30px; }
+
+        /* --- FOOTER --- */
+        .footer-noir { padding: 80px 8% 40px; background: #020305; border-top: 1px solid rgba(197, 160, 89, 0.1); text-align: center; }
+        .city-list { font-size: 0.7rem; letter-spacing: 4px; color: var(--liquid-gold); font-weight: 700; margin-bottom: 40px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; text-transform: uppercase; }
+        .city-list a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .city-list a:hover { color: #fff; }
+
+        .social-icons { margin-bottom: 30px; display: flex; justify-content: center; gap: 25px; }
+        .social-icons a { color: var(--text-muted); font-size: 1.2rem; transition: 0.3s; text-decoration: none; }
+        .social-icons a:hover { color: var(--liquid-gold); transform: translateY(-3px); }
+        
+        .footer-links { margin-bottom: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--text-main); }
+
+        /* --- SURGICAL MOBILE FIXES --- */
+        @media (max-width: 480px) {
+            .nav-fixed { padding: 0 15px; height: 70px; }
+            .brand-logo-nav { font-size: 26px !important; }
+            .nav-cta { gap: 10px; }
+            .nav-login { font-size: 0.6rem !important; letter-spacing: 1px !important; }
+            .join-link { font-size: 0.6rem !important; padding: 8px 14px; }
+            .city-hero { min-height: 60vh; margin-top: 70px; }
+            .hero-title h1 { font-size: 42px; }
+            .editorial-section { margin-top: 0; padding: 60px 5%; }
+            .editorial-card { grid-template-columns: 1fr; padding: 40px 20px; gap: 40px; }
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="nav-fixed">
+        <a href="{% url 'index' %}" class="brand-logo-nav">Gr8Date</a>
+        <div class="nav-cta">
+            <a href="{% url 'account_login' %}" class="nav-login">LOG IN</a>
+            <a href="{% url 'account_signup' %}" class="join-link">JOIN FREE</a>
+        </div>
+    </nav>
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="footer-noir">
+        <div class="brand-logo-nav" style="font-size:40px; margin-bottom:40px; display:block;">Gr8Date</div>
+        
+        <div class="city-list">
+            <a href="{% url 'city_landing' 'sydney' %}"><span>Sydney</span></a> 
+            <a href="{% url 'city_landing' 'melbourne' %}"><span>Melbourne</span></a> 
+            <a href="{% url 'city_landing' 'brisbane' %}"><span>Brisbane</span></a> 
+            <a href="{% url 'city_landing' 'perth' %}"><span>Perth</span></a> 
+            <a href="{% url 'city_landing' 'adelaide' %}"><span>Adelaide</span></a> 
+            <a href="{% url 'city_landing' 'canberra' %}"><span>Canberra</span></a> 
+            <a href="{% url 'city_landing' 'hobart' %}"><span>Hobart</span></a> 
+            <a href="{% url 'city_landing' 'darwin' %}"><span>Darwin</span></a>
+        </div>
+
+        <div class="social-icons">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:admin@gr8date.au"><i class="far fa-envelope"></i></a>
+        </div>
+
+        <div class="footer-links">
+            <a href="{% url 'city_landing' 'about' %}">About Us</a> 
+            <a href="{% url 'city_landing' 'privacy' %}">Privacy</a> 
+            <a href="{% url 'city_landing' 'terms' %}">Terms</a>
+            <a href="{% url 'city_landing' 'faq' %}">FAQ</a>
+            <a href="{% url 'city_landing' 'contact' %}">Contact</a>
+        </div>
+
+        <p style="font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase;">© 2026 GR8Date – All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let cur = 0; 
+            const slides = document.querySelectorAll('.city-slide');
+            if(slides.length > 1) {
+                setInterval(() => {
+                    slides[cur].classList.remove('active');
+                    cur = (cur + 1) % slides.length;
+                    slides[cur].classList.add('active');
+                }, 3500);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>GR8Date | Australia's Premier Free Intentional Dating Network</title>
+    <meta name="description" content="Join GR8Date, Australia's exclusive free network for intentional dating. Connecting professionals across Sydney, Melbourne, Brisbane, and beyond.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@300;400;600;700&family=Allura&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --obsidian: #05070a;
+            --liquid-gold: #c5a059;
+            --gold-glow: rgba(197, 160, 89, 0.4);
+            --text-main: #f8f9fa;
+            --text-muted: rgba(248, 249, 250, 0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--obsidian); color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+        .nav-fixed {
+            position: fixed;
+            top: 0; width: 100%; height: 80px; display: flex; justify-content: space-between; align-items: center; padding: 0 6%;
+            background: rgba(5, 7, 10, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(197, 160, 89, 0.1); z-index: 2000;
+        }
+        
+        .brand-logo-nav { 
+            font-family: 'Allura', cursive; font-size: 44px; text-decoration: none;
+            background: linear-gradient(to bottom, #f9f295 0%, #e0aa3e 50%, #f9f295 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
+        }
+
+        .nav-cta { display: flex; gap: 20px; align-items: center; }
+        .nav-login { color: #fff; text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        .join-link { color: #000; background: var(--liquid-gold); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; padding: 10px 24px; border-radius: 2px; }
+
+        .hero-viewport { position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 80vh; margin-top: 80px; overflow: hidden; background: #000; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) contrast(1.1); opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .slide.active { opacity: 1; }
+
+        .hero-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 5%; z-index: 10; }
+        .hero-tag { text-transform: uppercase; letter-spacing: 10px; font-size: 1.1rem; color: var(--liquid-gold); margin-bottom: 20px; display: block; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 110px); line-height: 0.95; margin-bottom: 25px; }
+        .hero h1 span { font-style: italic; font-weight: 700; color: var(--liquid-gold); }
+
+        .feature-wrap { padding: 100px 8%; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+        .feature-image { width: 100%; aspect-ratio: 4/5; border: 1px solid var(--liquid-gold); overflow: hidden; }
+        .feature-image img { width: 100%; height: 100%; object-fit: cover; }
+        .feature-text h2 { font-family: 'Playfair Display', serif; font-size: 60px; line-height: 1.1; margin-bottom: 40px; }
+        .feature-item { margin-bottom: 40px; padding-left: 20px; border-left: 2px solid var(--liquid-gold); }
+        .feature-item h3 { color: var(--liquid-gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px; }
+
+        .hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1400px; margin: 80px auto 0; }
+        .hub-card { padding: 40px; border: 1px solid var(--liquid-gold); background: rgba(197, 160, 89, 0.08); text-align: left; text-decoration: none !important; color: inherit; display: block; transition: transform 0.3s ease; }
+        .hub-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--liquid-gold); }
+        .hub-card:hover { transform: translateY(-5px); }
+
+        .footer-noir { padding: 80px 8% 40px; background: #020305; border-top: 1px solid rgba(197, 160, 89, 0.1); text-align: center; }
+        .city-list { font-size: 0.7rem; letter-spacing: 4px; color: var(--liquid-gold); font-weight: 700; margin-bottom: 40px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; text-transform: uppercase; }
+        .city-list a { text-decoration: none; color: inherit; }
+        
+        .social-icons { margin-bottom: 30px; display: flex; justify-content: center; gap: 25px; }
+        .social-icons a { color: var(--text-muted); font-size: 1.2rem; transition: 0.3s; text-decoration: none; }
+        .social-icons a:hover { color: var(--liquid-gold); transform: translateY(-3px); }
+        
+        .footer-links { margin-bottom: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--text-main); }
+        
+        @media (max-width: 480px) {
+            .nav-fixed { padding: 0 15px; }
+            .brand-logo-nav { font-size: 28px !important; }
+            .nav-cta { gap: 10px; }
+            .nav-login, .join-link { font-size: 0.65rem; }
+            .join-link { padding: 8px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-fixed">
+        <a href="{% url 'index' %}" class="brand-logo-nav">Gr8Date</a>
+        <div class="nav-cta">
+            <a href="{% url 'account_login' %}" class="nav-login">LOG IN</a>
+            <a href="{% url 'account_signup' %}" class="join-link">JOIN FREE</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-viewport">
+            <div class="slideshow-layer">
+                <img src="{% static 'image/hero1.jpg' %}" class="slide active">
+                <img src="{% static 'image/hero2.jpg' %}" class="slide">
+                <img src="{% static 'image/hero3.jpg' %}" class="slide">
+            </div>
+            <div class="hero-content">
+                <span class="hero-tag">The Australian Standard</span>
+                <div class="hero"><h1>Authenticity <span>Perfected.</span></h1></div>
+                <p style="font-size: 1.2rem; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px;">Join Australia's premier private dating network.</p>
+                <a href="{% url 'account_signup' %}" style="display:inline-block; padding:18px 45px; border:1px solid var(--liquid-gold); color:#fff; text-decoration:none; font-weight:700; letter-spacing:5px; text-transform:uppercase; font-size: 0.8rem;">Begin Experience</a>
+            </div>
+        </section>
+
+        <section class="feature-wrap">
+            <div class="feature-image"><img src="{% static 'image/portrait.jpg' %}" alt="Member Highlight"></div>
+            <div class="feature-text">
+                <h2>No Fees. <br><span style="color:var(--liquid-gold);">Unrivaled Integrity.</span></h2>
+                <div class="feature-item">
+                    <h3>Absolute Transparency</h3>
+                    <p>We've eliminated the pay-to-play model. Every premium tool is available at zero cost for our Australian community.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Curated Excellence</h3>
+                    <p>Our network is built on quality, not quantity. Connect with professionals who share your ambition and values.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="seo-hub" style="padding: 80px 6%;">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <span class="hero-tag">Connection Hubs</span>
+                <h2 style="font-family:'Playfair Display', serif; font-size: 50px; margin-bottom: 20px;">The Australian <span>Network.</span></h2>
+            </div>
+            <div class="hub-grid">
+                <a href="{% url 'city_landing' 'sydney' %}" class="hub-card"><h3>Sydney</h3><p>Elevated connections amidst the NSW coastline and skyline.</p></a>
+                <a href="{% url 'city_landing' 'melbourne' %}" class="hub-card"><h3>Melbourne</h3><p>Intentional dating within Victoria's premier cultural hub.</p></a>
+                <a href="{% url 'city_landing' 'brisbane' %}" class="hub-card"><h3>Brisbane</h3><p>Authentic relationships from the Valley to the Gold Coast.</p></a>
+                <a href="{% url 'city_landing' 'perth' %}" class="hub-card"><h3>Perth</h3><p>Exclusive networking for the modern professional in the West.</p></a>
+                <a href="{% url 'city_landing' 'adelaide' %}" class="hub-card"><h3>Adelaide</h3><p>Refined connections amidst the premium SA lifestyle.</p></a>
+                <a href="{% url 'city_landing' 'canberra' %}" class="hub-card"><h3>Canberra</h3><p>Private networking for the ACT's intentional circles.</p></a>
+                <a href="{% url 'city_landing' 'hobart' %}" class="hub-card"><h3>Hobart</h3><p>Heritage and modern charm in the heart of Tasmania.</p></a>
+                <a href="{% url 'city_landing' 'darwin' %}" class="hub-card"><h3>Darwin</h3><p>Tropical sophistication for Top End professionals.</p></a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-noir">
+        <div class="brand-logo-nav" style="font-size:40px; margin-bottom:40px; display:block;">Gr8Date</div>
+        <div class="city-list">
+            <a href="{% url 'city_landing' 'sydney' %}"><span>Sydney</span></a> 
+            <a href="{% url 'city_landing' 'melbourne' %}"><span>Melbourne</span></a> 
+            <a href="{% url 'city_landing' 'brisbane' %}"><span>Brisbane</span></a> 
+            <a href="{% url 'city_landing' 'perth' %}"><span>Perth</span></a> 
+            <a href="{% url 'city_landing' 'adelaide' %}"><span>Adelaide</span></a> 
+            <a href="{% url 'city_landing' 'canberra' %}"><span>Canberra</span></a> 
+            <a href="{% url 'city_landing' 'hobart' %}"><span>Hobart</span></a> 
+            <a href="{% url 'city_landing' 'darwin' %}"><span>Darwin</span></a>
+        </div>
+        <div class="social-icons">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:admin@gr8date.au" target="_blank"><i class="far fa-envelope"></i></a>
+        </div>
+        <div class="footer-links">
+            <a href="{% url 'city_landing' 'about' %}">About Us</a> 
+            <a href="{% url 'city_landing' 'privacy' %}">Privacy</a> 
+            <a href="{% url 'city_landing' 'terms' %}">Terms</a>
+            <a href="{% url 'city_landing' 'faq' %}">FAQ</a>
+            <a href="{% url 'city_landing' 'contact' %}">Contact</a>
+        </div>
+        <p style="font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase;">© 2026 GR8Date – All rights reserved.</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        function nextSlide() {
+            if(slides.length > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+        }
+        setInterval(nextSlide, 3500);
+    </script>
+</body>
+</html>
