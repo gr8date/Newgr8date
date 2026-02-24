@@ -50,6 +50,25 @@
                 {{ text|safe }}
             {% endif %}
         </div>
+
+        {% if show_join_button %}
+        <div class="join-action-wrapper" style="text-align: center; margin-top: 50px; padding-top: 40px; border-top: 1px solid #222;">
+            <a href="{% url 'account_signup' %}" style="
+                display: inline-block;
+                padding: 18px 45px;
+                background: linear-gradient(135deg, #d4af37 0%, #f9e29b 50%, #b8860b 100%);
+                color: #000;
+                text-decoration: none;
+                font-weight: bold;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                border-radius: 2px;
+                transition: transform 0.3s ease;
+            ">
+                Join the {{ name|upper }} Network
+            </a>
+        </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

@@ -9,16 +9,21 @@ urlpatterns = [
     # Main Index Page
     path('', views.index, name='index'),
     
-    # SEO Files: Served directly from your templates folder
+    # SEO Files
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', TemplateView.as_view(template_name="sitemap.xml", content_type="text/xml")),
     
-    # Authentication Placeholders (Points to Sydney landing for now)
+    # --- FIXED: Specific Legal & Support Routes (MUST BE ABOVE THE SLUG) ---
+    path('about/', views.city_landing, {'city_slug': 'about'}, name='about'),
+    path('privacy/', views.city_landing, {'city_slug': 'privacy'}, name='privacy'),
+    path('terms/', views.city_landing, {'city_slug': 'terms'}, name='terms'),
+    path('faq/', views.city_landing, {'city_slug': 'faq'}, name='faq'),
+    path('contact/', views.city_landing, {'city_slug': 'contact'}, name='contact'),
+
+    # Authentication Placeholders (Crucial for index.html links)
     path('login/', views.city_landing, {'city_slug': 'sydney'}, name='account_login'), 
     path('signup/', views.city_landing, {'city_slug': 'sydney'}, name='account_signup'),
 
-    # THE DYNAMIC ROUTE: This handles all cities AND all legal pages (about, privacy, terms, faq, contact)
-    # This must remain at the bottom of the list.
+    # --- THE DYNAMIC ROUTE (Must stay at the bottom) ---
     path('<slug:city_slug>/', views.city_landing, name='city_landing'),
 ]
-
